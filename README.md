@@ -108,8 +108,7 @@ http://127.0.0.1:8000/health
 
 Notes:
 
-- By default, `ai_engine` loads the model from `ai_train/artifacts/cnn_fis_classifier.keras`
-- You can override that with `AI_ENGINE_MODEL_PATH`
+- `ai_engine` loads the model from `ai_engine/artifacts/cnn_fis_classifier.keras`
 - The prediction endpoint is `POST /predict`
 
 ## Run the Web App

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -20,20 +19,13 @@ LABEL_NAMES = {
     LABEL_MAP["pos"]: "Positive",
 }
 NUM_CLASSES = len(LABEL_TOKENS)
-DEFAULT_MODEL_PATH = (
-    Path(__file__).resolve().parent.parent
-    / "ai_train"
-    / "artifacts"
-    / "cnn_fis_classifier.keras"
+MODEL_PATH = (
+    Path(__file__).resolve().parent / "artifacts" / "cnn_fis_classifier.keras"
 )
 
 
 def get_model_path() -> Path:
-    configured_path = os.getenv("AI_ENGINE_MODEL_PATH")
-    if configured_path:
-        return Path(configured_path).expanduser().resolve()
-
-    return DEFAULT_MODEL_PATH.resolve()
+    return MODEL_PATH.resolve()
 
 
 @lru_cache(maxsize=1)
@@ -42,7 +34,7 @@ def load_model():
     if not model_path.exists():
         raise FileNotFoundError(
             f"Keras model tidak ditemukan di: {model_path}. "
-            "Set AI_ENGINE_MODEL_PATH atau pastikan artefak training tersedia."
+            "Pastikan file artefak ada di folder ai_engine/artifacts."
         )
 
     return tf.keras.models.load_model(model_path)

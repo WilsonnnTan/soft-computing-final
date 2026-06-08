@@ -1,0 +1,8 @@
+{
+  "learning_rate": 0.003,
+  "filters_1": 96,
+  "filters_2": 256,
+  "dense_units": 64,
+  "dropout_rate": 0.5,
+  "batch_size": 16
+}

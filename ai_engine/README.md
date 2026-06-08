@@ -11,18 +11,12 @@ This service:
 - applies the same Fuzzy Inference System rules from the notebook, and
 - returns the final label plus the raw class probabilities.
 
-## Default Model Path
+## Model Path
 
-By default, the service reads the trained model from:
+The service reads the trained model from:
 
 ```text
-../ai_train/artifacts/cnn_fis_classifier.keras
-```
-
-You can override that path with:
-
-```powershell
-$env:AI_ENGINE_MODEL_PATH="C:\path\to\cnn_fis_classifier.keras"
+ai_engine/artifacts/cnn_fis_classifier.keras
 ```
 
 ## Install Dependencies
