@@ -1,6 +1,6 @@
 # Soft Computing Final Project
 
-Final project repository for our Soft Computing group. This project combines an AI training workflow and a web application for image sentiment analysis.
+Final project repository for our Soft Computing group. This project combines an AI training workflow, a FastAPI inference engine, and a web application for image sentiment analysis.
 
 ## Group Profile
 
@@ -22,9 +22,10 @@ The AI side uses a hybrid approach:
 - Genetic Algorithm for hyperparameter optimization
 - Fuzzy Inference System for the final classification stage
 
-The repository is split into two main parts:
+The repository is split into three main parts:
 
 - `ai_train/` for model training, notebooks, dataset files, and saved artifacts
+- `ai_engine/` for the FastAPI inference service that loads the trained Keras model and applies the FIS rules
 - `web/` for the Next.js web application
 
 ## Requirements
@@ -77,6 +78,40 @@ Notes:
 - Use `*_pos.*` for positive
 - Saved model artifacts are stored in `ai_train/artifacts/`
 
+Before starting the web app, run the AI engine first so image analysis requests have somewhere to go.
+
+## Run the AI Engine
+
+Move into the AI engine folder:
+
+```powershell
+cd ai_engine
+```
+
+Install dependencies:
+
+```powershell
+uv sync
+```
+
+Start the FastAPI development server:
+
+```powershell
+uv run uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Open the health endpoint in your browser if you want to verify it is up:
+
+```text
+http://127.0.0.1:8000/health
+```
+
+Notes:
+
+- By default, `ai_engine` loads the model from `ai_train/artifacts/cnn_fis_classifier.keras`
+- You can override that with `AI_ENGINE_MODEL_PATH`
+- The prediction endpoint is `POST /predict`
+
 ## Run the Web App
 
 Move into the web folder:
@@ -91,6 +126,12 @@ Install dependencies:
 pnpm install
 ```
 
+Point the frontend to the FastAPI service:
+
+```powershell
+$env:NEXT_PUBLIC_AI_ENGINE_URL="http://127.0.0.1:8000"
+```
+
 Start the development server:
 
 ```powershell
@@ -101,22 +142,4 @@ Open the app in your browser:
 
 ```text
 http://localhost:3000
-```
-
-## Helpful Commands
-
-AI training:
-
-```powershell
-cd ai_train
-uv sync
-uv run jupyter lab notebook/main.ipynb
-```
-
-Web app:
-
-```powershell
-cd web
-pnpm install
-pnpm dev
 ```

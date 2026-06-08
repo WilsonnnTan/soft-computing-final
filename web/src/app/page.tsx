@@ -23,8 +23,8 @@ export default function Home() {
       </main>
 
       <footer className="pb-10 text-center text-xs text-muted-foreground">
-        Foto tidak pernah disimpan ke server · Dibuat untuk proyek Soft
-        Computing
+        Foto diproses lewat AI engine dan tidak disimpan permanen · Dibuat untuk
+        proyek Soft Computing
       </footer>
     </div>
   );

@@ -11,10 +11,11 @@ export function WarningCard() {
         <p className="text-sm leading-relaxed text-amber-800">
           Foto yang kamu upload{' '}
           <strong>
-            tidak disimpan, tidak dikirim ke mana pun, dan langsung terhapus
+            hanya dikirim ke AI engine kami untuk dianalisis dan tidak disimpan
+            permanen
           </strong>{' '}
-          setelah analisis selesai. Kami hanya membaca gambarmu di sesi ini —
-          bukan di server kami.
+          setelah analisis selesai. Server hanya memproses gambar untuk
+          prediksi, bukan menyimpannya sebagai arsip.
         </p>
       </div>
     </div>

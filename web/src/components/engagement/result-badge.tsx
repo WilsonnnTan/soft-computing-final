@@ -1,6 +1,8 @@
 import { cn } from '@/lib/utils';
 import { Minus, TrendingDown, TrendingUp } from 'lucide-react';
 
+import type { EngagementAnalysisResult } from './engagement-api';
+
 const RESULT_CONFIG = {
   Positive: {
     icon: TrendingUp,
@@ -34,9 +36,27 @@ const RESULT_CONFIG = {
   },
 };
 
-export function ResultBadge({ result }: { result: string }) {
+const PROBABILITY_ORDER = [
+  {
+    key: 'positive',
+    label: 'Positive',
+    tone: 'bg-green-500',
+  },
+  {
+    key: 'neutral',
+    label: 'Neutral',
+    tone: 'bg-slate-500',
+  },
+  {
+    key: 'negative',
+    label: 'Negative',
+    tone: 'bg-rose-500',
+  },
+] as const;
+
+export function ResultBadge({ result }: { result: EngagementAnalysisResult }) {
   const config =
-    RESULT_CONFIG[result as keyof typeof RESULT_CONFIG] ??
+    RESULT_CONFIG[result.label as keyof typeof RESULT_CONFIG] ??
     RESULT_CONFIG.Neutral;
   const Icon = config.icon;
 
@@ -55,6 +75,36 @@ export function ResultBadge({ result }: { result: string }) {
       <p className={cn('text-sm leading-relaxed', config.descColor)}>
         {config.desc}
       </p>
+      <div className="mt-4 space-y-3 rounded-lg bg-white/70 p-4 text-left shadow-sm">
+        <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
+          <span>FIS score</span>
+          <span>{result.fisScore.toFixed(1)} / 100</span>
+        </div>
+        <div className="flex items-center justify-between text-xs text-slate-600">
+          <span>Prediksi awal CNN</span>
+          <span>{result.cnnLabel}</span>
+        </div>
+        <div className="space-y-2">
+          {PROBABILITY_ORDER.map(({ key, label, tone }) => {
+            const probability = result.probabilities[key] * 100;
+
+            return (
+              <div key={key} className="space-y-1">
+                <div className="flex items-center justify-between text-[11px] font-medium text-slate-600">
+                  <span>{label}</span>
+                  <span>{probability.toFixed(1)}%</span>
+                </div>
+                <div className="h-2 overflow-hidden rounded-full bg-slate-200">
+                  <div
+                    className={cn('h-full rounded-full transition-all', tone)}
+                    style={{ width: `${probability}%` }}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

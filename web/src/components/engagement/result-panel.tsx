@@ -8,13 +8,15 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Sparkles } from 'lucide-react';
 
+import type { EngagementAnalysisResult } from './engagement-api';
 import { ResultBadge } from './result-badge';
 
 interface ResultPanelProps {
-  result: string | null;
+  loading: boolean;
+  result: EngagementAnalysisResult | null;
 }
 
-export function ResultPanel({ result }: ResultPanelProps) {
+export function ResultPanel({ loading, result }: ResultPanelProps) {
   return (
     <Card className="h-full">
       <CardHeader>
@@ -32,7 +34,9 @@ export function ResultPanel({ result }: ResultPanelProps) {
           <ResultBadge result={result} />
         ) : (
           <div className="rounded-lg border border-dashed bg-muted/30 px-4 py-8 text-center text-sm text-muted-foreground">
-            No result yet. Upload an image and click Process.
+            {loading
+              ? 'The AI engine is processing your image now.'
+              : 'No result yet. Upload an image and click Process.'}
           </div>
         )}
       </CardContent>
