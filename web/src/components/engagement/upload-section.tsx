@@ -1,44 +1,45 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import { CheckCircle2, Upload } from 'lucide-react';
-import type { ChangeEvent, DragEvent } from 'react';
-import { useRef, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { CheckCircle2, FileImage, Upload, X } from 'lucide-react';
+import type { ChangeEvent } from 'react';
+import { useId } from 'react';
 
 interface UploadSectionProps {
   disabled: boolean;
   error: string | null;
-  fileName: string | null;
   loading: boolean;
-  onFileChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onFileSelect: (file: File | null) => void;
   onProcess: () => void;
+  selectedFile: File | null;
 }
 
 const FORMATS = ['PNG', 'JPG', 'WEBP', 'GIF', 'HEIC', 'AVIF', 'SVG', 'BMP'];
+const BYTES_PER_MEGABYTE = 1024 * 1024;
 
 export function UploadSection({
   disabled,
   error,
-  fileName,
   loading,
-  onFileChange,
+  onFileSelect,
   onProcess,
+  selectedFile,
 }: UploadSectionProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [dragging, setDragging] = useState(false);
+  const inputId = useId();
 
-  function handleDrop(e: DragEvent<HTMLDivElement>) {
-    e.preventDefault();
-    setDragging(false);
-    const file = e.dataTransfer.files[0];
-    if (!file) return;
-    // Synthesise a change event the parent handler can consume
-    const dt = new DataTransfer();
-    dt.items.add(file);
-    const syntheticEvent = {
-      target: { files: dt.files, value: '' },
-    } as unknown as ChangeEvent<HTMLInputElement>;
-    onFileChange(syntheticEvent);
+  function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
+    onFileSelect(e.currentTarget.files?.[0] ?? null);
+    e.currentTarget.value = '';
+  }
+
+  function handleRemoveFile() {
+    onFileSelect(null);
+  }
+
+  function formatFileSize(size: number) {
+    return `${(size / BYTES_PER_MEGABYTE).toFixed(2)} MB`;
   }
 
   return (
@@ -58,38 +59,33 @@ export function UploadSection({
 
       {/* Card body */}
       <div className="space-y-4 p-6">
-        {/* Drop zone */}
-        <div
-          onClick={() => inputRef.current?.click()}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragging(true);
-          }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={handleDrop}
-          className={cn(
-            'ig-gradient-border flex cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-transparent px-6 py-10 text-center transition-all duration-200',
-            dragging && 'scale-[1.01] opacity-90',
-          )}
-        >
+        {/* File uploader */}
+        <div className="ig-gradient-border flex flex-col items-center justify-center gap-4 rounded-xl border-2 border-transparent px-6 py-8 text-center transition-all duration-200">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-100 via-pink-100 to-orange-100">
             <Upload className="h-6 w-6 text-purple-500" />
           </div>
-          <div>
-            <p className="text-sm font-bold text-foreground">
-              Seret foto ke sini, atau{' '}
-              <span className="ig-gradient-text">pilih file</span>
-            </p>
+          <div className="flex flex-col items-center gap-3">
+            <Button
+              asChild
+              size="lg"
+              className="ig-gradient h-auto cursor-pointer rounded-full px-6 py-3 text-sm font-bold text-white shadow-lg shadow-pink-200 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-pink-300"
+            >
+              <Label htmlFor={inputId} className="cursor-pointer">
+                Klik untuk pilih file
+              </Label>
+            </Button>
             <p className="mt-1 text-xs text-muted-foreground">
               Semua format gambar didukung
             </p>
           </div>
-          <input
-            ref={inputRef}
+
+          <Input
+            id={inputId}
             type="file"
             accept="image/*,.png,.jpg,.jpeg,.gif,.webp,.bmp,.svg,.avif,.heic,.heif"
-            onChange={onFileChange}
-            className="hidden"
+            disabled={loading}
+            onChange={handleInputChange}
+            className="sr-only"
           />
         </div>
 
@@ -106,13 +102,31 @@ export function UploadSection({
         </div>
 
         {/* Selected file indicator */}
-        {fileName && (
+        {selectedFile && (
           <div className="flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3">
-            <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-green-600" />
-            <p className="flex-1 truncate text-sm font-semibold text-green-800">
-              {fileName}
-            </p>
-            <span className="text-xs font-medium text-green-600">Siap</span>
+            <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-green-100">
+              <FileImage className="h-4 w-4 text-green-700" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold text-green-900">
+                {selectedFile.name}
+              </p>
+              <p className="text-xs font-medium text-green-700">
+                {formatFileSize(selectedFile.size)} · Siap dianalisis
+              </p>
+            </div>
+            <CheckCircle2 className="hidden h-4 w-4 flex-shrink-0 text-green-600 sm:block" />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              disabled={loading}
+              onClick={handleRemoveFile}
+              aria-label="Hapus file"
+              className="h-8 w-8 text-green-700 hover:bg-green-100 hover:text-green-900"
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </div>
         )}
 
@@ -122,17 +136,14 @@ export function UploadSection({
         )}
 
         {/* CTA button */}
-        <button
+        <Button
           onClick={onProcess}
           disabled={disabled}
-          className={cn(
-            'ig-gradient w-full rounded-full py-3.5 text-sm font-bold text-white shadow-lg shadow-pink-200 transition-all duration-200',
-            'hover:-translate-y-0.5 hover:shadow-xl hover:shadow-pink-300',
-            'disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none disabled:translate-y-0',
-          )}
+          size="lg"
+          className="ig-gradient h-auto w-full rounded-full py-3.5 text-sm font-bold text-white shadow-lg shadow-pink-200 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-pink-300 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
         >
           {loading ? '⏳ Memproses...' : '✨ Analisis Sekarang'}
-        </button>
+        </Button>
 
         {loading && (
           <div className="h-1.5 overflow-hidden rounded-full bg-muted">

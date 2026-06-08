@@ -1,4 +1,4 @@
-const DEFAULT_AI_ENGINE_URL = 'http://127.0.0.1:8000';
+const ANALYZE_ENGAGEMENT_ROUTE = '/api/engagement/predict';
 
 export type EngagementLabel = 'Negative' | 'Neutral' | 'Positive';
 
@@ -26,21 +26,21 @@ interface AiEngineErrorResponse {
   detail?: string;
 }
 
-export function getAiEngineBaseUrl() {
-  return (
-    process.env.NEXT_PUBLIC_AI_ENGINE_URL?.trim().replace(/\/+$/, '') ||
-    DEFAULT_AI_ENGINE_URL
-  );
-}
-
 export async function analyzeEngagementImage(file: File) {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', file, file.name);
 
-  const response = await fetch(`${getAiEngineBaseUrl()}/predict`, {
-    body: formData,
-    method: 'POST',
-  });
+  let response: Response;
+  try {
+    response = await fetch(ANALYZE_ENGAGEMENT_ROUTE, {
+      body: formData,
+      method: 'POST',
+    });
+  } catch {
+    throw new Error(
+      'Permintaan analisis gagal dikirim. Pastikan aplikasi web dan AI engine aktif lalu coba lagi.',
+    );
+  }
 
   const payload = await parseResponse(response);
   if (!response.ok) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { type ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import {
   type EngagementAnalysisResult,
@@ -31,8 +31,7 @@ export function EngagementWorkspace() {
     };
   }, []);
 
-  function onFileChange(e: ChangeEvent<HTMLInputElement>) {
-    const selectedFile = e.target.files?.[0];
+  function onFileSelect(selectedFile: File | null) {
     setResult(null);
     setUploadError(null);
     setAnalysisError(null);
@@ -57,14 +56,12 @@ export function EngagementWorkspace() {
       previewUrlRef.current = objectUrl;
       setFile(selectedFile);
       setPreview(objectUrl);
-      if ('value' in e.target) e.target.value = '';
       return;
     }
 
     setFile(null);
     setPreview(null);
     setUploadError('Pilih file gambar yang valid ya — JPG, PNG, WEBP, dll.');
-    if ('value' in e.target) e.target.value = '';
   }
 
   async function onProcess() {
@@ -94,10 +91,10 @@ export function EngagementWorkspace() {
       <UploadSection
         disabled={!file || loading}
         error={uploadError ?? analysisError}
-        fileName={file?.name ?? null}
         loading={loading}
-        onFileChange={onFileChange}
+        onFileSelect={onFileSelect}
         onProcess={onProcess}
+        selectedFile={file}
       />
 
       <div className="grid gap-4 sm:grid-cols-2">

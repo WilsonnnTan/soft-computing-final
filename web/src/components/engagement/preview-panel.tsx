@@ -1,5 +1,4 @@
 import { ImageIcon } from 'lucide-react';
-import Image from 'next/image';
 
 interface PreviewPanelProps {
   preview: string | null;
@@ -23,13 +22,11 @@ export function PreviewPanel({ preview }: PreviewPanelProps) {
       <div className="p-5">
         {preview ? (
           <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-border">
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element -- Browser blob URLs from selected files should render directly. */}
+            <img
               src={preview}
               alt="Preview foto yang dipilih"
-              fill
-              sizes="(min-width: 1024px) 28rem, 100vw"
-              unoptimized
-              className="object-contain"
+              className="h-full w-full object-contain"
             />
           </div>
         ) : (
