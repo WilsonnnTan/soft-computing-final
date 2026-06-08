@@ -52,8 +52,32 @@ def preprocess_image_bytes(image_bytes: bytes) -> np.ndarray:
     return image
 
 
+def normalize_probability_vector(model_output: np.ndarray) -> np.ndarray:
+    probabilities = np.asarray(model_output, dtype=np.float32).reshape(-1)
+
+    if probabilities.shape[0] == NUM_CLASSES:
+        return probabilities
+
+    if probabilities.shape[0] == 1:
+        # Current artifact is binary sigmoid: one score means positive confidence.
+        positive_probability = float(np.clip(probabilities[0], 0.0, 1.0))
+        return np.asarray(
+            [
+                1.0 - positive_probability,
+                0.0,
+                positive_probability,
+            ],
+            dtype=np.float32,
+        )
+
+    raise ValueError(
+        f"Expected either {NUM_CLASSES} class probabilities or 1 binary probability, "
+        f"received shape {probabilities.shape}."
+    )
+
+
 def probability_dict_from_vector(probability_vector: np.ndarray) -> dict[str, float]:
-    probabilities = np.asarray(probability_vector, dtype=np.float32).reshape(-1)
+    probabilities = normalize_probability_vector(probability_vector)
     if probabilities.shape[0] != NUM_CLASSES:
         raise ValueError(
             f"Expected {NUM_CLASSES} class probabilities, received shape {probabilities.shape}."
@@ -189,7 +213,8 @@ def predict_image_bytes(image_bytes: bytes) -> dict[str, Any]:
     model = load_model()
 
     batch = np.expand_dims(image, axis=0).astype(np.float32)
-    probability_vector = np.asarray(model.predict(batch, verbose=0)[0], dtype=np.float32)
+    model_output = np.asarray(model.predict(batch, verbose=0)[0], dtype=np.float32)
+    probability_vector = normalize_probability_vector(model_output)
     probabilities = probability_dict_from_vector(probability_vector)
     fuzzy_label, fuzzy_score = fuzzy_label_from_probabilities(probability_vector)
     cnn_prediction_name = LABEL_NAMES[int(np.argmax(probability_vector))]
