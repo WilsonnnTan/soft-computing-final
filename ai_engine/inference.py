@@ -58,21 +58,9 @@ def normalize_probability_vector(model_output: np.ndarray) -> np.ndarray:
     if probabilities.shape[0] == NUM_CLASSES:
         return probabilities
 
-    if probabilities.shape[0] == 1:
-        # Current artifact is binary sigmoid: one score means positive confidence.
-        positive_probability = float(np.clip(probabilities[0], 0.0, 1.0))
-        return np.asarray(
-            [
-                1.0 - positive_probability,
-                0.0,
-                positive_probability,
-            ],
-            dtype=np.float32,
-        )
-
     raise ValueError(
-        f"Expected either {NUM_CLASSES} class probabilities or 1 binary probability, "
-        f"received shape {probabilities.shape}."
+        f"Expected {NUM_CLASSES} class probabilities for "
+        f"{', '.join(LABEL_TOKENS)}, received shape {probabilities.shape}."
     )
 
 
