@@ -1,37 +1,27 @@
-# syntax=docker/dockerfile:1.7
+# syntax=docker/dockerfile:1
+FROM python:3.12-slim AS build
 
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS runtime
-
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    TF_CPP_MIN_LOG_LEVEL=2 \
-    UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy
+COPY --from=ghcr.io/astral-sh/uv:0.8.21 /uv /uvx /bin/
 
 WORKDIR /app
 
-# Runtime libraries needed by OpenCV/TensorFlow wheels on Debian slim.
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        libgl1 \
-        libglib2.0-0 \
-        libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
+ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 
-COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen --no-dev
+COPY uv.lock pyproject.toml ./
 
-COPY main.py inference.py ./
-COPY artifacts ./artifacts
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --no-install-project --no-dev
 
-RUN useradd --create-home --shell /usr/sbin/nologin appuser \
-    && chown -R appuser:appuser /app
+COPY . .
 
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
+
+FROM python:3.12-slim AS runtime
+ENV PATH="/app/.venv/bin:$PATH"
+RUN groupadd -g 1001 appgroup && \
+    useradd -u 1001 -g appgroup -m -d /app -s /bin/false appuser
+WORKDIR /app
+COPY --from=build --chown=appuser:appgroup /app .
 USER appuser
-
-EXPOSE 8000
-
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD ./.venv/bin/python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=5).read()" || exit 1
-
-CMD ["./.venv/bin/uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers"]
+ENTRYPOINT ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
