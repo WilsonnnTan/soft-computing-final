@@ -13,7 +13,7 @@ WORKDIR /app
 # ============================================
 FROM base AS deps
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 # Install ALL deps (including dev) for building
 RUN pnpm install --frozen-lockfile
