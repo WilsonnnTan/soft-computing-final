@@ -19,37 +19,44 @@ Postingan dikategorikan sebagai **Positive (`pos`)** apabila memenuhi kriteria b
 | Kriteria | Penjelasan Detail | Contoh Kasus Nyata (Dataset 1-100) |
 | :--- | :--- | :--- |
 | **Slogan Singkat & Jelas** | Memiliki teks promosi singkat (maksimal 5-7 kata) yang menonjolkan nama merek, promo utama, atau slogan yang mudah diingat. | • `001_pos.png` (*"Paket Spesial Rp 55.000"* dari Es Teler 77)<br>• `009_pos.png` (*"HUT KOTAKU Rp 46.364"* dari KFC)<br>• `036_pos.png` (*"BMT DEALS Special Price Rp 35rb"* dari Subway) |
-| **Gambar Produk Jelas** | Menampilkan foto produk asli atau ilustrasi utama dengan resolusi tinggi, tidak buram, pencahayaan baik, dan tajam. | • `002_pos.png` (Minuman boba cokelat)<br>• `013_pos.png` (Foto piring nasi tim ayam jamur)<br>• `074_pos.png` (Foto makro cincin permata Swarovski) |
-| **Komposisi Seimbang** | Perpaduan harmonis antara slogan dan gambar produk, penataan bersih (*clean layout*), dan teks tidak menutupi area penting produk. | • `010_pos.png` (Samsung ViewFinity monitor)<br>• `011_pos.png` (HP POCO C81 Pro)<br>• `075_pos.png` (Tas kulit cokelat Coach) |
+| **Gambar Produk Jelas** | Menampilkan foto produk asli atau ilustrasi utama dengan resolusi tinggi, tidak buram, pencahayaan baik, dan tajam. | • `002_pos.png` (Minuman boba cokelat)<br>• `013_pos.png` (Foto piring nasi tim ayam jamur)<br>• `035_pos.png` (Foto segelas boba dengan background rapi) |
+| **Komposisi Seimbang** | Perpaduan harmonis antara slogan dan gambar produk, penataan bersih (*clean layout*), dan teks tidak menutupi area penting produk. | • `011_pos.png` (HP POCO C81 Pro)<br>• `009_pos.png` (Promo KFC dengan background merah ikonik)<br>• `036_pos.png` (Promo Subway BMT Deals dengan layout rapi) |
 
 ---
 
-## 3. Kriteria Desain Tidak Menarik (Negative / `neg`)
+## 3. Kriteria Desain Biasa Saja (Neutral / `neutral`)
+
+Postingan dikategorikan sebagai **Neutral (`neutral`)** apabila desainnya tergolong biasa saja, fungsional namun tidak memiliki elemen estetika menonjol (Positive) dan tidak memiliki cacat fatal (Negative).
+
+| Kriteria | Penjelasan Detail | Contoh Kasus Nyata (Dataset 1-100) |
+| :--- | :--- | :--- |
+| **Slogan Sederhana / Teks Informasi Dasar** | Teks berupa deskripsi produk biasa, label nama merek, atau informasi operasional (bukan slogan promosi yang punchy). Jumlah kata sedang (8-15 kata) namun tetap teratur. | • `007_pos.png` (Daftar 10 menu Lawson - padat info tapi rapi)<br>• `044_pos.png` (Batagor Bandoeng - label teks standard) |
+| **Visual Standar / Foto Produk Polos** | Foto produk jelas dan fokus, namun menggunakan background polos (tidak ditata secara artistik) atau sama sekali tidak memiliki slogan/teks overlay (borderline murni). | • `010_neg.png` (Samsung ViewFinity monitor)<br>• `074_neg.png` (Foto cincin Swarovski)<br>• `075_neg.png` (Tas Coach)<br>• `061_neg.png` (BMW 7 display car) |
+| **Layout Fungsional / Templat Standar** | Susunan desain menggunakan templat instan standar (seperti Canva dengan data placeholder/kontak fiktif) atau menggunakan teks aksara asing/fiktif yang kurang fungsional bagi audiens umum. | • `018_pos.png` (Es Cendol template)<br>• `020_pos.png` (Fauget Croissant template)<br>• `032_pos.png` (Generic design template)<br>• `033_pos.png` (Takoyaki template)<br>• `051_pos.png` (Burger King Aurebesh) |
+
+---
+
+## 4. Kriteria Desain Tidak Menarik (Negative / `neg`)
 
 Postingan dikategorikan sebagai **Negative (`neg`)** apabila memiliki salah satu atau beberapa kecacatan berikut:
 
 | Kriteria | Penjelasan Detail | Contoh Kasus Nyata (Dataset 1-100) |
 | :--- | :--- | :--- |
-| **Tanpa Slogan / Kata-kata** | Gambar postingan polos tanpa ada teks overlay, tulisan merek, atau keterangan promo sama sekali (hanya foto objek polos). | • `057_neg.png` (Foto hidangan asparagus dan roti)<br>• `061_neg.png` (Foto mobil BMW 7 di display)<br>• `063_neg.png` (Foto mobil Ferrari dari belakang) |
-| **Terlalu Banyak Informasi (*Too Much Info*)** | Teks terlalu panjang, bertele-tele, ukuran huruf terlalu kecil, atau menyajikan terlalu banyak promo/kontak (teks menutupi $>30\%$ gambar). | • `007_neg.png` (Daftar 10 menu Lawson super padat teks)<br>• `012_neg.png` (Brosur perumahan penuh detail teks)<br>• `017_neg.png` (Brosur saus Pohon Cabe padat teks/logo) |
-| **Template Fiktif / Kontak Palsu** | Menggunakan template desain instan dengan data kontak palsu (seperti `@reallygreatsite`, `+123456`, atau teks placeholder *"Nama Kedai"*). | • `018_neg.png` (Es Cendol, kontak `@reallygreatsite`)<br>• `020_neg.png` (Fauget Croissant, kontak `123-456`)<br>• `033_neg.png` (Takoyaki, logo bertuliskan *"Nama Kedai"*) |
-| **Visual Buram & Kontak Palsu** | Gambar pecah (low resolution), tata letak berantakan, serta menggunakan nomor kontak samaran/palsu. | • `044_neg.png` (Batagor Bandoeng, kontak `08XXXXXXXXXX` dengan visual kurang tajam) |
-| **Bahasa Fiktif / Tidak Terbaca** | Menggunakan aksara fiktif atau tulisan yang tidak dapat dipahami oleh target audiens umum. | • `051_neg.png` (Burger King, teks ditulis dalam aksara fiktif Star Wars *Aurebesh*) |
+| **Tanpa Slogan / Kata-kata** | Gambar postingan polos tanpa ada teks overlay sama sekali, dan foto produk tidak teratur atau terkesan amatir (misal: makanan di wadah plastik tanpa penataan, background berantakan). | • `057_neg.png` (Foto hidangan asparagus dan roti)<br>• `063_neg.png` (Foto mobil Ferrari dari belakang) |
+| **Terlalu Banyak Informasi (*Too Much Info*)** | Teks terlalu panjang, bertele-tele, ukuran huruf terlalu kecil, atau menyajikan terlalu banyak promo/kontak (teks menutupi $>30\%$ gambar dan berantakan). | • `012_neg.png` (Brosur perumahan penuh detail teks)<br>• `017_neg.png` (Brosur saus Pohon Cabe padat teks/logo) |
 
 ---
 
-## 4. Matriks Ringkasan Logika Pelabelan
+## 5. Matriks Ringkasan Logika Pelabelan
 
 | Apakah Ada Slogan Singkat? | Apakah Ada Gambar Produk Jelas? | Apakah Desain Rapi & Seimbang? | Label Akhir | Suffix Nama File |
 | :---: | :---: | :---: | :---: | :---: |
 | **Ya** (Singkat & Jelas) | **Ya** (Tajam & Relevan) | **Ya** (Harmonis) | **Positive** | `_pos` |
-| **Tidak** (Terlalu panjang/Tidak ada) | **Ya** | **Ya / Tidak** | **Negative** | `_neg` |
-| **Ya** | **Tidak** (Buram/Tidak ada) | **Ya / Tidak** | **Negative** | `_neg` |
-| **Ya** | **Ya** | **Tidak** (*Too much info*/Berantakan) | **Negative** | `_neg` |
-
+| **Sedang / Label Sederhana** | **Ya** (Standar) | **Ya** (Sederhana/Fungsional) | **Neutral** | `_neutral` |
+| **Tidak** | **Ya / Tidak** | **Ya / Tidak** | **Negative** | `_neg` |
 ---
 
-## 5. Mitigasi Bias Algoritma & Keadilan Evaluasi (Algorithmic Bias Mitigation & Fairness)
+## 6. Mitigasi Bias Algoritma & Keadilan Evaluasi (Algorithmic Bias Mitigation & Fairness)
 
 Untuk memastikan dataset yang Anda gunakan tidak bias dan tidak mendiskriminasi produk tertentu yang dapat menurunkan performa generalisasi model CNN Anda, terapkan prinsip-prinsip ilmiah berikut saat melabeli data:
 
