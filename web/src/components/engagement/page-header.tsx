@@ -5,13 +5,13 @@ export function PageHeader() {
         AI Image Analysis
       </p>
       <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground sm:text-5xl">
-        Cek <span className="ig-gradient-text">Engagement</span>
+        Check <span className="ig-gradient-text">Engagement</span>
         <br />
-        Foto Kamu
+        For Your Photo
       </h1>
       <p className="mx-auto max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
-        Upload foto, lihat hasilnya dalam hitungan detik. Kami menganalisis
-        potensi engagement gambarmu — seberapa kuat daya tariknya.
+        Upload a photo and get the result in seconds. We analyze its engagement
+        potential and estimate how strong its visual appeal is.
       </p>
     </div>
   );

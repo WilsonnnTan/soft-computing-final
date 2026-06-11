@@ -33,8 +33,8 @@ def load_model():
     model_path = get_model_path()
     if not model_path.exists():
         raise FileNotFoundError(
-            f"Keras model tidak ditemukan di: {model_path}. "
-            "Pastikan file artefak ada di folder ai_engine/artifacts."
+            f"Keras model not found at: {model_path}. "
+            "Make sure the artifact file exists in ai_engine/artifacts."
         )
 
     return tf.keras.models.load_model(model_path)
@@ -44,7 +44,9 @@ def preprocess_image_bytes(image_bytes: bytes) -> np.ndarray:
     image_array = np.frombuffer(image_bytes, dtype=np.uint8)
     image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
     if image is None:
-        raise ValueError("Gambar tidak bisa dibaca. Pastikan file upload adalah gambar yang valid.")
+        raise ValueError(
+            "The image could not be read. Make sure the uploaded file is a valid image."
+        )
 
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = cv2.resize(image, IMAGE_SIZE, interpolation=cv2.INTER_AREA)

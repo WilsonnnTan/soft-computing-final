@@ -36,7 +36,7 @@ export function ResultPanel({ loading, result }: ResultPanelProps) {
           <div className="rounded-lg border border-dashed bg-muted/30 px-4 py-8 text-center text-sm text-muted-foreground">
             {loading
               ? 'The AI engine is processing your image now.'
-              : 'No result yet. Upload an image and click Process.'}
+              : 'No result yet. Upload an image and click Analyze Image.'}
           </div>
         )}
       </CardContent>

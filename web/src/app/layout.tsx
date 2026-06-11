@@ -16,9 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'EngageVision — Analisis Engagement Foto',
-  description:
-    'Upload foto dan cek potensi engagement-nya dalam hitungan detik.',
+  title: 'EngageVision - Photo Engagement Analysis',
+  description: 'Upload a photo and check its engagement potential in seconds.',
 };
 
 export default function RootLayout({
@@ -27,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={cn('font-sans', plusJakarta.variable)}>
+    <html lang="en" className={cn('font-sans', plusJakarta.variable)}>
       <body className={`${geistMono.variable} antialiased`}>{children}</body>
     </html>
   );

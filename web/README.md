@@ -1,144 +1,55 @@
-# My Next.js Template - Full Stack Setup
+# EngageVision Web App
 
-A comprehensive Next.js template for building full-stack applications with modern best practices. This template includes authentication, database integration, testing, and linting configured and ready to use.
+The `web/` folder contains the Next.js frontend for the Soft Computing final project. It lets users upload an image, sends that image to the FastAPI AI engine, and displays the resulting engagement classification.
 
-## Features
+## Main Responsibilities
 
-- Next.js with TypeScript
-- Prisma ORM for database management
-- Better Auth for authentication
-- ESLint configuration
-- Vitest for testing
-- Tailwind for styling
+- render the upload and preview interface
+- forward image uploads through the app's API route
+- display the CNN prediction, FIS score, and final label
+- provide reusable authentication and API helper utilities from the base template
 
-## Authentication
+## Key Paths
 
-This template uses Better Auth and includes helpers for both pages and API routes.
+- `src/app/page.tsx` - main landing page
+- `src/components/engagement/` - upload, preview, and results UI
+- `src/app/api/engagement/predict/route.ts` - server route that proxies uploads to the AI engine
+- `src/lib/auth/` - Better Auth setup and helpers
+- `src/lib/api-helper/` - API wrapper, JSend helpers, and API error utilities
 
-- [src/lib/auth/auth-page-helper.ts](src/lib/auth/auth-page-helper.ts)
-- [src/lib/auth/auth-api-helper.ts](src/lib/auth/auth-api-helper.ts)
-- [src/lib/api-helper/api-wrapper.ts](src/lib/api-helper/api-wrapper.ts)
+## AI Engine Connection
 
-### Protecting Pages
+The frontend expects the AI engine to expose `POST /predict`.
 
-Use `AuthPageHelper.requireUser()` in a server page. If no session exists, it redirects to the login page.
+It reads the backend base URL from:
 
-```ts
-import { AuthPageHelper } from '@/lib/auth/auth-page-helper';
+- `AI_ENGINE_URL`
+- `NEXT_PUBLIC_AI_ENGINE_URL`
 
-export default async function DashboardPage() {
-  const user = await AuthPageHelper.requireUser();
+If neither is set, it falls back to:
 
-  return <div>Welcome, {user.name}</div>;
-}
+```text
+http://localhost:8000
 ```
 
-### Protecting APIs
+## Authentication And API Helpers
 
-Use the API wrappers instead of checking the session manually in each route:
+This app still includes the reusable full-stack template helpers:
 
-- `withApiPublic(...)` for routes that can be accessed without login
-- `withApiAuth(...)` for routes that require login
+- `AuthPageHelper.requireUser()` for protected server pages
+- `withApiPublic(...)` for public API routes
+- `withApiAuth(...)` for authenticated API routes
+- `jsend` and `ApiError` for consistent API responses
 
-## API Helpers
+Example helper sources:
 
-The API layer provides:
+- `src/lib/auth/auth-page-helper.ts`
+- `src/lib/auth/auth-api-helper.ts`
+- `src/lib/api-helper/api-wrapper.ts`
+- `src/lib/api-helper/jsend.ts`
+- `src/lib/api-helper/error.ts`
 
-- `jsend` for standardized JSON responses
-- `ApiError` for throwing HTTP-friendly errors
-- `withApiPublic` and `withApiAuth` for route wrapping
+## Related Docs
 
-Source files:
-
-- [src/lib/api-helper/jsend.ts](src/lib/api-helper/jsend.ts)
-- [src/lib/api-helper/api-wrapper.ts](src/lib/api-helper/api-wrapper.ts)
-- [src/lib/api-helper/error.ts](src/lib/api-helper/error.ts)
-
-Example routes:
-
-- [src/app/api/examples/route.ts](src/app/api/examples/route.ts)
-- [src/app/api/examples/[slug]/route.ts](src/app/api/examples/[slug]/route.ts)
-
-### Route Usage
-
-Public route:
-
-```ts
-import { withApiPublic } from '@/lib/api-helper/api-wrapper';
-import { ApiError } from '@/lib/api-helper/error';
-import { jsend } from '@/lib/api-helper/jsend';
-
-export const GET = withApiPublic(async ({ req, user }) => {
-  const { searchParams } = new URL(req.url);
-  const name = searchParams.get('name');
-
-  if (!name) {
-    throw ApiError.badRequest('Query param "name" is required');
-  }
-
-  return jsend.success({
-    message: `Hello, ${name}!`,
-    userId: user?.id ?? null,
-  });
-});
-```
-
-Protected route:
-
-```ts
-import { withApiAuth } from '@/lib/api-helper/api-wrapper';
-import { jsend } from '@/lib/api-helper/jsend';
-
-export const POST = withApiAuth(async ({ user }) => {
-  return jsend.success({
-    id: user.id,
-    email: user.email,
-  });
-});
-```
-
-Dynamic route params:
-
-```ts
-type ExampleSlugParams = {
-  slug: string;
-};
-
-export const GET = withApiPublic<ExampleSlugParams>(async ({ params }) => {
-  return jsend.success({ slug: params.slug });
-});
-```
-
-### Responses With `jsend`
-
-Use `jsend` for consistent responses:
-
-```ts
-return jsend.success({ id: '123' });
-return jsend.fail({ message: 'Invalid input' }, 400);
-return jsend.error('Something went wrong', 500);
-```
-
-### Errors With `ApiError`
-
-Throw `ApiError` inside wrapped routes and the wrapper will convert it into a JSend response with the matching HTTP status.
-
-```ts
-throw ApiError.badRequest('Email is required');
-throw ApiError.notFound('Post not found');
-throw ApiError.custom('Upstream service failed', 502);
-```
-
-### Built-in Wrapper Error Handling
-
-The API wrapper already handles these cases for you:
-
-- `ApiError` returns `jsend.fail(...)` with the error message and HTTP status
-- `ZodError` returns field validation errors with status `400`
-- Prisma `P2002` returns `400`
-- Prisma `P2025` returns `404`
-- unknown errors return `jsend.error(...)` with status `500`
-
-## Contributing
-
-We welcome contributions to help improve this template! Please take a look at our [Contributing Guidelines](CONTRIBUTING.md) for more details on how to get started and the submission process.
+- [Root project overview](../README.md)
+- [AI engine README](../ai_engine/README.md)

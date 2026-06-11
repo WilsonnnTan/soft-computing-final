@@ -7,15 +7,17 @@ export function WarningCard() {
         <ShieldCheck className="h-5 w-5 text-white" />
       </div>
       <div className="space-y-1">
-        <p className="text-sm font-bold text-amber-900">Foto kamu aman, 100%</p>
+        <p className="text-sm font-bold text-amber-900">
+          Your image stays safe
+        </p>
         <p className="text-sm leading-relaxed text-amber-800">
-          Foto yang kamu upload{' '}
+          The image you upload{' '}
           <strong>
-            hanya dikirim ke AI engine kami untuk dianalisis dan tidak disimpan
-            permanen
+            is sent only to our AI engine for analysis and is not stored
+            permanently
           </strong>{' '}
-          setelah analisis selesai. Server hanya memproses gambar untuk
-          prediksi, bukan menyimpannya sebagai arsip.
+          after the analysis finishes. The server processes the image only for
+          prediction, not for long-term storage.
         </p>
       </div>
     </div>

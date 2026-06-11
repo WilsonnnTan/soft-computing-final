@@ -50,9 +50,9 @@ export function UploadSection({
           <Upload className="h-4 w-4 text-white" />
         </div>
         <div>
-          <p className="text-sm font-bold text-card-foreground">Upload Foto</p>
+          <p className="text-sm font-bold text-card-foreground">Upload Image</p>
           <p className="text-xs text-muted-foreground">
-            Pilih satu foto dari perangkatmu, lalu jalankan analisis.
+            Choose one image from your device, then run the analysis.
           </p>
         </div>
       </div>
@@ -71,11 +71,11 @@ export function UploadSection({
               className="ig-gradient h-auto cursor-pointer rounded-full px-6 py-3 text-sm font-bold text-white shadow-lg shadow-pink-200 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-pink-300"
             >
               <Label htmlFor={inputId} className="cursor-pointer">
-                Klik untuk pilih file
+                Click to choose a file
               </Label>
             </Button>
             <p className="mt-1 text-xs text-muted-foreground">
-              Semua format gambar didukung
+              All common image formats are supported
             </p>
           </div>
 
@@ -112,7 +112,7 @@ export function UploadSection({
                 {selectedFile.name}
               </p>
               <p className="text-xs font-medium text-green-700">
-                {formatFileSize(selectedFile.size)} · Siap dianalisis
+                {formatFileSize(selectedFile.size)} · Ready to analyze
               </p>
             </div>
             <CheckCircle2 className="hidden h-4 w-4 flex-shrink-0 text-green-600 sm:block" />
@@ -122,7 +122,7 @@ export function UploadSection({
               size="icon"
               disabled={loading}
               onClick={handleRemoveFile}
-              aria-label="Hapus file"
+              aria-label="Remove file"
               className="h-8 w-8 text-green-700 hover:bg-green-100 hover:text-green-900"
             >
               <X className="h-4 w-4" />
@@ -142,7 +142,7 @@ export function UploadSection({
           size="lg"
           className="ig-gradient h-auto w-full rounded-full py-3.5 text-sm font-bold text-white shadow-lg shadow-pink-200 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-pink-300 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
         >
-          {loading ? '⏳ Memproses...' : '✨ Analisis Sekarang'}
+          {loading ? '⏳ Processing...' : '✨ Analyze Image'}
         </Button>
 
         {loading && (

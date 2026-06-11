@@ -23,8 +23,8 @@ export default function Home() {
       </main>
 
       <footer className="pb-10 text-center text-xs text-muted-foreground">
-        Foto diproses lewat AI engine dan tidak disimpan permanen · Dibuat untuk
-        proyek Soft Computing
+        Images are processed by the AI engine and are not stored permanently.
+        Built for the Soft Computing project.
       </footer>
     </div>
   );

@@ -13,8 +13,10 @@ export function PreviewPanel({ preview }: PreviewPanelProps) {
           <ImageIcon className="h-4 w-4 text-white" />
         </div>
         <div>
-          <p className="text-sm font-bold text-card-foreground">Preview Foto</p>
-          <p className="text-xs text-muted-foreground">Foto yang kamu pilih</p>
+          <p className="text-sm font-bold text-card-foreground">
+            Image Preview
+          </p>
+          <p className="text-xs text-muted-foreground">Your selected image</p>
         </div>
       </div>
 
@@ -25,7 +27,7 @@ export function PreviewPanel({ preview }: PreviewPanelProps) {
             {/* eslint-disable-next-line @next/next/no-img-element -- Browser blob URLs from selected files should render directly. */}
             <img
               src={preview}
-              alt="Preview foto yang dipilih"
+              alt="Preview of the selected image"
               className="h-full w-full object-contain"
             />
           </div>
@@ -35,9 +37,9 @@ export function PreviewPanel({ preview }: PreviewPanelProps) {
               <ImageIcon className="h-5 w-5 text-muted-foreground/50" />
             </div>
             <p className="text-sm text-muted-foreground">
-              Preview foto akan muncul
+              The preview will appear
               <br />
-              setelah kamu memilih file
+              after you choose a file
             </p>
           </div>
         )}

@@ -71,13 +71,13 @@ def health():
 @app.post("/predict", response_model=PredictionResponse)
 async def predict(file: UploadFile = File(...)):
     if not file.content_type or not file.content_type.startswith("image/"):
-        raise HTTPException(status_code=400, detail="Upload harus berupa file gambar.")
+        raise HTTPException(status_code=400, detail="The uploaded file must be an image.")
 
     image_bytes = await file.read()
     await file.close()
 
     if not image_bytes:
-        raise HTTPException(status_code=400, detail="File gambar kosong.")
+        raise HTTPException(status_code=400, detail="The uploaded image file is empty.")
 
     try:
         prediction = await run_in_threadpool(predict_image_bytes, image_bytes)
@@ -88,7 +88,7 @@ async def predict(file: UploadFile = File(...)):
     except Exception as error:
         raise HTTPException(
             status_code=500,
-            detail=f"Prediksi gagal dijalankan: {error}",
+            detail=f"Prediction failed to run: {error}",
         ) from error
 
     return PredictionResponse.model_validate(prediction)

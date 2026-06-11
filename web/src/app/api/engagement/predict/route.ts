@@ -37,7 +37,7 @@ export async function POST(request: Request) {
 
   if (!(file instanceof File)) {
     return NextResponse.json(
-      { detail: 'Upload harus menyertakan satu file gambar.' },
+      { detail: 'The upload must include exactly one image file.' },
       { status: 400 },
     );
   }
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
   if (!contentType) {
     return NextResponse.json(
-      { detail: 'Upload harus berupa file gambar.' },
+      { detail: 'The uploaded file must be an image.' },
       { status: 400 },
     );
   }
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json(
       {
-        detail: `AI engine tidak bisa dihubungi di ${aiEngineBaseUrl}. Pastikan service FastAPI aktif lalu coba lagi.`,
+        detail: `The AI engine could not be reached at ${aiEngineBaseUrl}. Make sure the FastAPI service is running, then try again.`,
       },
       { status: 502 },
     );
@@ -91,7 +91,7 @@ export async function POST(request: Request) {
     } catch {
       return NextResponse.json(
         {
-          detail: `AI engine mengembalikan JSON yang tidak valid: ${responseText}`,
+          detail: `The AI engine returned invalid JSON: ${responseText}`,
         },
         { status: 502 },
       );

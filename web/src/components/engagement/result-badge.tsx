@@ -7,8 +7,8 @@ const RESULT_CONFIG = {
   Positive: {
     icon: TrendingUp,
     emoji: '🔥',
-    label: 'Engagement Tinggi!',
-    desc: 'Foto ini punya sinyal keterlibatan yang kuat. Kemungkinan besar akan menarik banyak perhatian dan interaksi.',
+    label: 'High Engagement',
+    desc: 'This image shows strong engagement signals and is likely to attract attention and interaction.',
     wrapper: 'bg-gradient-to-br from-green-50 to-emerald-50 border-green-200',
     iconBg: 'bg-green-100 text-green-700',
     labelColor: 'text-green-800',
@@ -17,8 +17,8 @@ const RESULT_CONFIG = {
   Negative: {
     icon: TrendingDown,
     emoji: '📉',
-    label: 'Engagement Rendah',
-    desc: 'Foto ini memiliki sinyal keterlibatan yang lemah. Coba ganti pencahayaan, komposisi, atau subjek foto.',
+    label: 'Low Engagement',
+    desc: 'This image shows weak engagement signals. Try improving the lighting, composition, or subject.',
     wrapper: 'bg-gradient-to-br from-red-50 to-rose-50 border-red-200',
     iconBg: 'bg-red-100 text-red-700',
     labelColor: 'text-red-800',
@@ -27,8 +27,8 @@ const RESULT_CONFIG = {
   Neutral: {
     icon: Minus,
     emoji: '😐',
-    label: 'Engagement Biasa',
-    desc: 'Foto ini berada di kisaran engagement yang stabil — tidak terlalu rendah, tapi ada ruang untuk ditingkatkan.',
+    label: 'Moderate Engagement',
+    desc: 'This image sits in a stable middle range. It is not too weak, but there is still room to improve.',
     wrapper: 'bg-gradient-to-br from-slate-50 to-gray-50 border-slate-200',
     iconBg: 'bg-slate-100 text-slate-600',
     labelColor: 'text-slate-800',
@@ -81,7 +81,7 @@ export function ResultBadge({ result }: { result: EngagementAnalysisResult }) {
           <span>{result.fisScore.toFixed(1)} / 100</span>
         </div>
         <div className="flex items-center justify-between text-xs text-slate-600">
-          <span>Prediksi awal CNN</span>
+          <span>Initial CNN prediction</span>
           <span>{result.cnnLabel}</span>
         </div>
         <div className="space-y-2">

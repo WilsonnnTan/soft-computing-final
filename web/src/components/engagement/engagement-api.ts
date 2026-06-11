@@ -38,7 +38,7 @@ export async function analyzeEngagementImage(file: File) {
     });
   } catch {
     throw new Error(
-      'Permintaan analisis gagal dikirim. Pastikan aplikasi web dan AI engine aktif lalu coba lagi.',
+      'The analysis request could not be sent. Make sure the web app and AI engine are running, then try again.',
     );
   }
 
@@ -49,13 +49,13 @@ export async function analyzeEngagementImage(file: File) {
 
     throw new Error(
       errorDetail ||
-        'AI engine gagal memproses gambar. Pastikan service FastAPI sedang berjalan.',
+        'The AI engine could not process this image. Make sure the FastAPI service is running.',
     );
   }
 
   if (!payload || !isPredictionResponse(payload)) {
     throw new Error(
-      'AI engine tidak mengembalikan bentuk respons prediksi yang valid.',
+      'The AI engine did not return a valid prediction response.',
     );
   }
 
@@ -78,9 +78,7 @@ async function parseResponse(response: Response) {
       | AiEnginePredictionResponse
       | AiEngineErrorResponse;
   } catch {
-    throw new Error(
-      `AI engine mengembalikan respons yang tidak valid: ${text}`,
-    );
+    throw new Error(`The AI engine returned an invalid response: ${text}`);
   }
 }
 

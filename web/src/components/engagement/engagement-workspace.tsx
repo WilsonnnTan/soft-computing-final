@@ -12,7 +12,7 @@ import { UploadSection } from './upload-section';
 
 const IMAGE_FILE_PATTERN = /\.(png|jpe?g|gif|webp|bmp|svg|avif|heic|heif)$/i;
 const DEFAULT_ANALYSIS_ERROR =
-  'AI engine gagal memproses gambar ini. Pastikan service FastAPI aktif lalu coba lagi.';
+  'The AI engine could not process this image. Make sure the FastAPI service is running, then try again.';
 
 export function EngagementWorkspace() {
   const [file, setFile] = useState<File | null>(null);
@@ -61,7 +61,9 @@ export function EngagementWorkspace() {
 
     setFile(null);
     setPreview(null);
-    setUploadError('Pilih file gambar yang valid ya — JPG, PNG, WEBP, dll.');
+    setUploadError(
+      'Please choose a valid image file such as JPG, PNG, or WEBP.',
+    );
   }
 
   async function onProcess() {
